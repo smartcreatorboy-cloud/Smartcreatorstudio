@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCS ANALOGY 2026 - ANIL SIR</title>
+    <style>
+        :root { --red: #ff0000; --gold: #ffd700; --bg: #000; --card: #111; --blue: #0044ff; --green: #00c853; }
+        body { margin: 0; background: var(--bg); font-family: 'Arial', sans-serif; color: #fff; overflow-x: hidden; }
+
+        /* Typing Effect */
+        .typing-container { font-size: 22px; font-weight: 900; color: var(--gold); border-right: 3px solid var(--red); white-space: nowrap; overflow: hidden; margin: 0 auto 20px auto; width: fit-content; animation: typing 3s steps(20) infinite alternate, blink 0.5s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { 50% { border-color: transparent } }
+
+        /* Header */
+        .header { background: linear-gradient(180deg, #600, #000); height: 100px; border-bottom: 3px solid var(--gold); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .header h1 { margin: 0; font-size: 20px; color: #fff; text-transform: uppercase; }
+        .menu-btn { position: absolute; right: 15px; background: var(--gold); color: #000; padding: 8px 12px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 11px; }
+
+        /* Sidebar */
+        .sidebar { position: fixed; right: -280px; top: 100px; width: 250px; height: 65vh; background: #111; border: 2px solid var(--gold); z-index: 2000; transition: 0.4s; padding: 15px; overflow-y: auto; border-radius: 15px 0 0 15px; }
+        .sidebar.active { right: 0; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .grid-item { background: #333; padding: 10px; text-align: center; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; border: 1px solid #444; }
+        .grid-item.done { background: var(--green); border-color: #fff; }
+        .grid-item.current { border: 2px solid var(--gold); box-shadow: 0 0 10px var(--gold); }
+
+        /* Social Links */
+        .social-box { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .s-link { text-decoration: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 12px; text-align: center; }
+        .yt { background: #FF0000; } .wa { background: #25D366; } .ig { background: #E1306C; }
+
+        /* Quiz Body */
+        .container { max-width: 600px; margin: auto; padding: 15px; display: none; padding-bottom: 120px; }
+        .q-card { background: var(--card); padding: 20px; border-radius: 12px; border-left: 8px solid var(--red); margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        
+        /* Exam Tag Style */
+        .exam-tag { background: var(--blue); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.2); }
+
+        .option { background: #1a1a1a; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1.5px solid #333; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .correct { background: var(--green) !important; border-color: #fff !important; }
+        .wrong { background: var(--red) !important; border-color: #fff !important; }
+
+        /* Analysis Box */
+        .pm-box { display: none; background: #000814; padding: 18px; border-radius: 12px; border: 1px dashed var(--gold); margin-top: 15px; }
+        .pm-title { color: var(--gold); font-weight: bold; font-size: 16px; margin-bottom: 8px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .pm-item { font-size: 13.5px; color: #ddd; line-height: 1.6; margin-bottom: 8px; border-left: 2px solid #444; padding-left: 10px; }
+
+        /* Footer Style */
+        .footer { position: fixed; bottom: 0; width: 100%; height: 55px; background: var(--blue); display: none; align-items: center; justify-content: center; border-top: 2px solid #fff; z-index: 1000; }
+        .footer-text { font-size: 14px; font-weight: bold; animation: f-blink 1s infinite; color: #fff; text-align: center; }
+        @keyframes f-blink { 50% { color: var(--gold); } }
+
+        /* Screens */
+        #login, #result-screen { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        .ui-box { width: 85%; max-width: 380px; text-align: center; border: 2px solid var(--gold); padding: 30px; border-radius: 20px; background: #050505; }
+        input { width: 85%; padding: 15px; border-radius: 8px; border: 2px solid #333; background: #000; color: var(--gold); font-size: 24px; text-align: center; margin-bottom: 20px; outline: none; }
+        .nav-btn { padding: 12px; border-radius: 8px; border: none; font-weight: bold; color: #fff; cursor: pointer; text-transform: uppercase; }
+        
+        /* Series Title on Login */
+        .series-title { color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--red); display: inline-block; padding-bottom: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar" class="sidebar">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
+            <b style="color:var(--gold)">QUESTIONS MENU</b>
+            <span onclick="toggleMenu()" style="color:red; cursor:pointer; font-weight:bold;">&times; CLOSE</span>
+        </div>
+        <div class="grid" id="menuGrid"></div>
+    </div>
+
+    <div id="login">
+        <div class="ui-box">
+            <div class="series-title">SSC GD 2026 ANALOGY PYQ SERIES</div>
+            <div class="typing-container">Smart Creator Studio</div>
+            <div class="social-box">
+                <a href="https://youtube.com/@SmartCreatorStudio" class="s-link yt">SUBSCRIBE YOUTUBE</a>
+                <a href="https://wa.me/9528769331" class="s-link wa">WHATSAPP GROUP</a>
+                <a href="https://instagram.com/smartcreatorstudio" class="s-link ig">FOLLOW INSTAGRAM</a>
+            </div>
+            <input type="password" id="pw" placeholder="PIN CODE">
+            <button class="nav-btn" style="background:var(--red); width:100%; font-size:16px;" onclick="unlock()">LOGIN AND START</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>Smart Creator Studio</h1>
+        <p>SSC GD 2026 | ANALOGY PYQ SERIES</p>
+        <div class="menu-btn" onclick="toggleMenu()">🎯 MENU</div>
+    </div>
+
+    <div class="container" id="cont">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--gold); font-weight:bold; font-size:14px;">
+            <span>QUESTION: <span id="curN">1</span> / 35</span>
+            <span>SCORE: <span id="score">0</span></span>
+        </div>
+
+        <div id="quiz-area">
+            <div class="q-card"><div id="qTxt" style="font-size:18px; font-weight:bold;"></div></div>
+            <div id="opts"></div>
+        </div>
+
+        <div id="pmBox" class="pm-box">
+            <div class="pm-title">🔬 गहन विश्लेषण (Detailed Post-Mortem)</div>
+            <div id="pmList"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top:20px;">
+            <button class="nav-btn" style="background:#222" onclick="move(-1)">BACK</button>
+            <button class="nav-btn" style="background:#333" onclick="move(1)">SKIP</button>
+            <button id="nxt" class="nav-btn" style="background:var(--red); display:none;" onclick="move(1)">NEXT</button>
+        </div>
+    </div>
+
+    <div id="result-screen" style="display:none;">
+        <div class="ui-box">
+            <h2 style="color:var(--gold)">PERFORMANCE CARD</h2>
+            <h1 id="r-total" style="font-size:50px; margin:10px 0;">0</h1>
+            <p>RIGHT: <span id="r-right" style="color:var(--green)">0</span> | WRONG: <span id="r-wrong" style="color:var(--red)">0</span></p>
+            <button class="nav-btn" style="background:var(--gold); color:#000; width:100%" onclick="location.reload()">RE-ATTEMPT</button>
+        </div>
+    </div>
+
+    <div class="footer" id="footerBar">
+        <div class="footer-text">Test Series के लिए संपर्क करें (9528769331) Anil Sir</div>
+    </div>
+
+    <script>
+        let cur = 0, score = 0, right = 0, wrong = 0;
+        let visited = new Array(35).fill(false);
+        const p_key = "MzYxMw=="; // 3613
+
+        // Data with Exam Tags
+        const data = [
+            {t:"SSC GD 10 Jan 2023 (Shift-1)", q:"मोतियाबिंद : आँख :: निमोनिया : ?", o:["मस्तिष्क","कान","फेफड़े","तंत्रिका तंत्र"], a:2, s:["तर्क: मोतियाबिंद (Cataract) आँखों की बीमारी है, वैसे ही निमोनिया फेफड़ों (Lungs) को प्रभावित करता है।","A) मस्तिष्क: मेनिनजाइटिस (दिमागी बुखार)।","C) फेफड़े (Correct): निमोनिया में फेफड़ों में सूजन आ जाती है।"]},
+            {t:"SSC GD 11 Feb 2019 (Shift-2)", q:"थर्मामीटर : तापमान :: हाइग्रोमीटर : ?", o:["दाब","घनत्व","आर्द्रता","ऊंचाई"], a:2, s:["तर्क: थर्मामीटर तापमान मापता है। हाइग्रोमीटर हवा की नमी मापता है।","C) आर्द्रता (Correct): वायुमंडल की Humidity मापने का यंत्र।"]},
+            {t:"SSC GD 16 Nov 2021 (Shift-3)", q:"विषाणु : चेचक :: जीवाणु : ?", o:["मलेरिया","टाइफाइड","एड्स","छोटी माता"], a:1, s:["तर्क: चेचक (Smallpox) विषाणु (Virus) से होता है। टाइफाइड जीवाणु (Bacteria) से होता है।","B) टाइफाइड (Correct): साल्मोनेला टाइफी बैक्टीरिया से होता है।"]},
+            {t:"SSC GD 2022 (Mock Test)", q:"कैलेंडर : तारीख :: शब्दकोश : ?", o:["वाक्य","भाषा","शब्द","पुस्तक"], a:2, s:["तर्क: कैलेंडर में तारीखें देखी जाती हैं, शब्दकोश (Dictionary) में शब्द देखे जाते हैं।"]},
+            {t:"SSC GD 13 Feb 2019 (Shift-1)", q:"botany : पौधे :: Entomology : ?", o:["कीड़े","सांप","पक्षी","कवक"], a:0, s:["तर्क: वनस्पति विज्ञान (Botany) में पौधों का अध्ययन होता है। एंटोमोलॉजी में कीड़ों का।"]},
+            {t:"SSC GD 12 Jan 2023 (Shift-4)", q:"भारत : नई दिल्ली :: ऑस्ट्रेलिया : ?", o:["सिडनी","मेलबर्न","पर्थ","कैनबरा"], a:3, s:["तर्क: देश और राजधानी का संबंध।","D) कैनबरा (Correct): ऑस्ट्रेलिया की राजधानी।"]},
+            {t:"SSC GD 2021 Previous Year", q:"कलम : लिखना :: चाकू : ?", o:["काटना","सब्जी","धार","रक्त"], a:0, s:["तर्क: कलम का काम लिखना है, चाकू का काम काटना है।"]},
+            {t:"SSC GD 01 Mar 2019 (Shift-3)", q:"अदालत : न्याय :: विद्यालय : ?", o:["अध्यापक","शिक्षा","छात्र","इमारत"], a:1, s:["तर्क: अदालत न्याय का स्थान है, विद्यालय शिक्षा का स्थान है।"]},
+            {t:"SSC GD 24 Jan 2023 (Shift-2)", q:"भूकंप : सिस्मोग्राफ :: प्रतिरोध : ?", o:["अमीटर","वोल्टमीटर","ओहममीटर","लैक्टोमीटर"], a:2, s:["तर्क: भूकंप सिस्मोग्राफ से मापा जाता है। प्रतिरोध (Resistance) ओहममीटर से।"]},
+            {t:"SSC GD 2019 (Shift-1)", q:"डॉक्टर : अस्पताल :: रसोइया : ?", o:["भोजन","चाकू","रसोई","वेटर"], a:2, s:["तर्क: रसोइया (Chef) किचन (रसोई) में काम करता है।"]},
+            {t:"SSC GD 2021 (Shift-2)", q:"कोशिका : ऊतक :: ऊतक : ?", o:["अंग","शरीर","रक्त","हड्डी"], a:0, s:["तर्क: कोशिकाओं से ऊतक बनता है, ऊतकों से अंग (Organ) बनता है।"]},
+            {t:"SSC GD 10 Jan 2023 (Shift-3)", q:"सचिन तेंदुलकर : क्रिकेट :: सानिया मिर्जा : ?", o:["बैडमिंटन","टेबल टेनिस","लॉन टेनिस","हॉकी"], a:2, s:["तर्क: सानिया मिर्जा लॉन टेनिस की खिलाड़ी हैं।"]},
+            {t:"SSC GD 2022 Important", q:"शेर : मांद (Den) :: खरगोश : ?", o:["गुफा","बिल (Burrow)","छेद","घोंसला"], a:1, s:["तर्क: खरगोश जमीन में बिल (Burrow) बनाकर रहता है।"]},
+            {t:"SSC GD Reasoning PYQ", q:"B : D :: F : ?", o:["H","I","G","J"], a:0, s:["तर्क: +2 का अंतर। B+2=D, F+2=H."]},
+            {t:"SSC GD 11 Feb 2019 (Shift-1)", q:"रक्त : लाल :: पत्ती : ?", o:["क्लोरोफिल","हरा","पेड़","सूर्य"], a:1, s:["तर्क: रक्त का रंग लाल, पत्ती का रंग हरा।"]},
+            {t:"SSC GD 25 Jan 2023 (Shift-4)", q:"ऊष्मा : कैलोरी :: ध्वनि : ?", o:["वॉट","जूल","डेसिबल","पास्कल"], a:2, s:["तर्क: ऊष्मा कैलोरी में, ध्वनि डेसिबल (dB) में मापी जाती है।"]},
+            {t:"SSC GD 2015 (Constable)", q:"घड़ी : समय :: थर्मामीटर : ?", o:["गर्मी","विकिरण","ऊर्जा","तापमान"], a:3, s:["तर्क: थर्मामीटर तापमान (Temperature) मापता है।"]},
+            {t:"SSC GD 2023 (Shift-2)", q:"ईरान : मजलिस :: अमेरिका : ?", o:["डाइट","कांग्रेस","संसद","नेसेट"], a:1, s:["तर्क: अमेरिका की संसद को कांग्रेस कहते हैं।"]},
+            {t:"SSC GD 2019 (Shift-3)", q:"आम : फल :: आलू : ?", o:["जड़","तना","फल","फूल"], a:1, s:["तर्क: आलू भूमिगत तना (Stem) है।"]},
+            {t:"SSC GD 2021 (Shift-1)", q:"ताजमहल : आगरा :: गोलघर : ?", o:["पटना","दिल्ली","हैदराबाद","लखनऊ"], a:0, s:["तर्क: गोलघर पटना (बिहार) में स्थित है।"]},
+            {t:"SSC GD 17 Jan 2023 (Shift-1)", q:"कुत्ता : रेबीज :: मच्छर : ?", o:["प्लेग","मलेरिया","मृत्यु","डंक"], a:1, s:["तर्क: कुत्ता काटने से रेबीज, मच्छर से मलेरिया।"]},
+            {t:"SSC GD 2021 (Reasoning)", q:"लेखक : कलम :: दर्जी : ?", o:["कपड़ा","सुई","धागा","सिलाई मशीन"], a:1, s:["तर्क: लेखक का मुख्य औजार कलम, दर्जी का सुई।"]},
+            {t:"SSC GD 2023 (Maths/Reasoning)", q:"5 : 125 :: 6 : ?", o:["216","36","180","256"], a:0, s:["तर्क: घन (Cube)। 6 का क्यूब 216 होता है।"]},
+            {t:"SSC GD 14 Feb 2019", q:"अध्यापक : छात्र :: डॉक्टर : ?", o:["नर्स","अस्पताल","रोगी","दवा"], a:2, s:["तर्क: डॉक्टर रोगी (Patient) का इलाज करता है।"]},
+            {t:"SSC GD 2021 (Shift-3)", q:"पक्षी : पंख :: मछली : ?", o:["गलफड़े","मीनपक्ष (Fins)","पानी","पूंछ"], a:1, s:["तर्क: पक्षी पंखों से उड़ते हैं, मछली Fins से तैरती है।"]},
+            {t:"SSC GD 02 Feb 2023", q:"किताब : पन्ने :: दीवार : ?", o:["रेत","सीमेंट","ईंट","घर"], a:2, s:["तर्क: पन्नों से किताब, ईंटों (Bricks) से दीवार बनती है।"]},
+            {t:"SSC GD General Science", q:"विटामिन A : रतौंधी :: विटामिन C : ?", o:["रिकेट्स","स्कर्वी","बेरी-बेरी","एनीमिया"], a:1, s:["तर्क: वि. C की कमी से स्कर्वी (Scurvy) होता है।"]},
+            {t:"SSC GD Hindi/Reasoning", q:"सच : झूठ :: दयालु : ?", o:["बुरा","क्रूर","अमीर","घमंडी"], a:1, s:["तर्क: विलोम शब्द। दयालु का उल्टा क्रूर (Cruel)।"]},
+            {t:"SSC GD 2019 (GK)", q:"रूस : रूबल :: बांग्लादेश : ?", o:["रुपया","टका","दीनार","डॉलर"], a:1, s:["तर्क: बांग्लादेश की मुद्रा टका है।"]},
+            {t:"SSC GD 2023 (Shift-3)", q:"मधुमक्खी : छत्ता :: मकड़ी : ?", o:["घोंसला","बिल","जाला","मांद"], a:2, s:["तर्क: मकड़ी जाला (Web) बनाती है।"]},
+            {t:"SSC GD 2021 (Analogy)", q:"नदी : बांध :: यातायात : ?", o:["सड़क","गाड़ी","सिग्नल बत्ती","पुलिस"], a:2, s:["तर्क: बांध पानी को रोकता/नियंत्रित करता है, सिग्नल यातायात को।"]},
+            {t:"SSC GD 30 Jan 2023", q:"हृदय : कार्डियोलॉजी :: गुर्दा (Kidney) : ?", o:["न्यूरोलॉजी","नेफ्रोलॉजी","पैथोलॉजी","हेमेटोलॉजी"], a:1, s:["तर्क: किडनी का अध्ययन नेफ्रोलॉजी कहलाता है।"]},
+            {t:"SSC GD Number Analogy", q:"12 : 144 :: 20 : ?", o:["420","400","200","220"], a:1, s:["तर्क: 20 का वर्ग (Square) 400 है।"]},
+            {t:"SSC GD 2019 (Shift-2)", q:"इतिहास : अतीत :: भूगोल : ?", o:["भविष्य","नक्शा","पृथ्वी","आकाश"], a:2, s:["तर्क: भूगोल (Geography) में पृथ्वी का अध्ययन होता है।"]},
+            {t:"SSC GD 2023 (Shift-4)", q:"बर्फ : ठंडक :: आग : ?", o:["राख","गर्मी","लकड़ी","ज्वाला"], a:1, s:["तर्क: बर्फ ठंडक देती है, आग गर्मी (Heat) देती है।"]}
+        ];
+
+        const grid = document.getElementById('menuGrid');
+        data.forEach((_, i) => {
+            let d = document.createElement('div');
+            d.className = 'grid-item'; d.innerText = i+1; d.id = 'menu-'+i;
+            d.onclick = () => { cur=i; loadQ(); toggleMenu(); };
+            grid.appendChild(d);
+        });
+
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        function unlock() {
+            let p = document.getElementById('pw').value;
+            if(btoa(p) === p_key) {
+                document.getElementById('login').style.display='none';
+                document.getElementById('cont').style.display='block';
+                document.getElementById('footerBar').style.display='flex';
+                loadQ();
+            } else { alert("WRONG PIN! ACCESS DENIED."); }
+        }
+
+        function loadQ() {
+            if(cur >= 35) { showResult(); return; }
+            let q = data[cur];
+            document.getElementById('curN').innerText = cur + 1;
+            // Tag + Question
+            document.getElementById('qTxt').innerHTML = `<span class="exam-tag">${q.t}</span><br>${q.q}`;
+            
+            document.getElementById('pmBox').style.display = 'none';
+            document.getElementById('nxt').style.display = 'none';
+            let oBox = document.getElementById('opts'); oBox.innerHTML = '';
+            
+            document.querySelectorAll('.grid-item').forEach(e => e.classList.remove('current'));
+            document.getElementById('menu-'+cur).classList.add('current');
+
+            q.o.forEach((opt, i) => {
+                let b = document.createElement('div'); b.className = 'option';
+                b.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+                if(!visited[cur]) b.onclick = () => check(i, b);
+                oBox.appendChild(b);
+            });
+            window.scrollTo(0,0);
+        }
+
+        function check(idx, el) {
+            visited[cur] = true;
+            document.getElementById('menu-'+cur).classList.add('done');
+            let q = data[cur];
+            let all = document.querySelectorAll('.option');
+            if(idx === q.a) { el.classList.add('correct'); right++; } 
+            else { el.classList.add('wrong'); all[q.a].classList.add('correct'); wrong++; }
+            score = right * 2;
+            document.getElementById('score').innerText = score;
+            
+            let list = document.getElementById('pmList'); list.innerHTML = '';
+            q.s.forEach(item => {
+                let p = document.createElement('div'); p.className = 'pm-item';
+                p.innerText = item; list.appendChild(p);
+            });
+            document.getElementById('pmBox').style.display = 'block';
+            document.getElementById('nxt').style.display = 'block';
+        }
+
+        function move(dir) {
+            cur += dir;
+            if(cur < 0) cur = 0;
+            if(cur < 35) loadQ();
+            else showResult();
+        }
+
+        function showResult() {
+            document.getElementById('cont').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'flex';
+            document.getElementById('r-total').innerText = score + " / " + (35*2);
+            document.getElementById('r-right').innerText = right;
+            document.getElementById('r-wrong').innerText = wrong;
+            document.getElementById('footerBar').style.display='none';
+        }
+    </script>
+</body>
+</html>
