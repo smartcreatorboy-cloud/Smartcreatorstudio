@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Smart Creator Studio - Hindi Quiz</title>
+    <style>
+        :root { --red: #e60000; --green: #28a745; --black: #000000; --gray: #777; }
+        * { -webkit-user-select: none; user-select: none; box-sizing: border-box; outline: none; -webkit-touch-callout: none; }
+        
+        body { font-family: 'Arial', sans-serif; background: #ffffff; margin: 0; padding: 5px; overflow-x: hidden; }
+        .container { width: 100%; max-width: 500px; margin: auto; text-align: center; position: relative; }
+        
+        .fs-toggle { position: absolute; top: 0; right: 0; padding: 5px 10px; cursor: pointer; font-size: 16px; font-weight: bold; border: 1px solid #ddd; border-radius: 8px; background: #fff; z-index: 10; }
+
+        @keyframes blinker { 50% { opacity: 0.2; } }
+        .book-title { font-size: 34px; font-weight: 900; color: var(--black); animation: blinker 1.5s linear infinite; margin-top: 5px; line-height: 1; }
+        .studio-tag { display: inline-block; background: var(--red); color: white; padding: 4px 15px; border-radius: 5px; font-size: 14px; font-weight: 800; margin-top: 5px; }
+        .subject-text { font-size: 13px; font-weight: bold; color: #555; margin-top: 3px; }
+
+        /* No Gap Header */
+        .q-text { color: var(--red); font-size: 50px; font-weight: 900; margin: 10px 0 15px 0; min-height: 60px; line-height: 1; }
+        
+        .option { display: block; width: 100%; padding: 15px; margin: 8px 0; border: 2px solid var(--black); border-radius: 12px; font-size: 22px; cursor: pointer; background: #fff; font-weight: 600; transition: 0.1s; }
+        .correct { background: var(--green) !important; color: white !important; border-color: var(--green) !important; }
+        .wrong { background: var(--red) !important; color: white !important; border-color: var(--red) !important; }
+        .locked { cursor: default; }
+        
+        .controls-row { display: flex; gap: 8px; margin-top: 10px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; color: white; }
+        .btn-prev { background: #555; } .btn-skip { background: #999; } .btn-next { background: var(--black); }
+
+        #result-screen { display: none; text-align: left; padding: 10px; }
+        .res-card { background: #f9f9f9; border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; text-align: center; }
+        .res-item { padding: 12px; border-bottom: 1px solid #eee; font-size: 15px; background: #fff; margin-bottom: 5px; border-radius: 8px; }
+        .status { font-weight: bold; padding: 2px 6px; border-radius: 4px; font-size: 11px; color: white; text-transform: uppercase; margin-left: 5px; }
+
+        .footer-links { margin-top: 25px; border-top: 2px dashed #eee; padding-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .link-btn { padding: 10px 14px; border-radius: 8px; text-decoration: none; font-size: 12px; color: white; font-weight: bold; }
+        .wa { background: #25D366; } .tg { background: #0088cc; } .ig { background: #E1306C; } .yt { background: #FF0000; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="container">
+    <div class="fs-toggle" onclick="toggleFS()">[ ]</div>
+
+    <div id="quiz-ui">
+        <div class="book-title">गागर में सागर</div>
+        <div class="studio-tag">SMART CREATOR STUDIO</div>
+        <div class="subject-text">विषय: हिंदी (विलोम शब्द - 100 प्रश्न)</div>
+        
+        <div class="q-text" id="target-word">...</div>
+        <div id="options-box"></div>
+        
+        <div class="controls-row">
+            <button class="btn btn-prev" onclick="goBack()">← पीछे</button>
+            <button class="btn btn-skip" onclick="skip()">स्किप</button>
+            <button class="btn btn-next" onclick="goNext()">अगला →</button>
+        </div>
+        <p style="margin-top:10px; color:#999; font-size:12px;">प्रगति: <span id="idx-view">1</span> / 100</p>
+    </div>
+
+    <div id="result-screen">
+        <div class="res-card">
+            <h2 style="margin:0;">स्कोर: <span id="score-text">0</span> / 100</h2>
+            <button onclick="reattempt()" class="btn btn-next" style="margin-top:10px; width: 160px; background: var(--red);">Re-Attempt</button>
+        </div>
+        <div id="review-list" style="max-height: 400px; overflow-y: auto;"></div>
+    </div>
+
+    <div class="footer-links">
+        <a href="https://whatsapp.com/channel/0029VaoSFa79sBI13dLiDt03" target="_blank" class="link-btn wa">WhatsApp</a>
+        <a href="https://t.me/smartcreatorboy2" target="_blank" class="link-btn tg">Telegram</a>
+        <a href="https://www.instagram.com/smartcreatorstudio" target="_blank" class="link-btn ig">Instagram</a>
+        <a href="https://youtube.com/@smartcreatorstudio" target="_blank" class="link-btn yt">YouTube</a>
+    </div>
+</div>
+
+<script>
+    // Full Security Suite
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 83))) return false;
+    };
+
+    function toggleFS() {
+        if (!document.fullscreenElement) { document.documentElement.requestFullscreen(); }
+        else { document.exitFullscreen(); }
+    }
+
+    // गरिमा, गुप्त, गौरव से शुरू होकर पूरे 100 शब्द
+    const masterData = [
+        {w:"गरिमा", a:"लघिमा"}, {w:"गुप्त", a:"प्रकट"}, {w:"गौरव", a:"लाघव"}, {w:"गुह्य", a:"प्रकट/अगुह्य"}, {w:"ज्ञात", a:"अज्ञात"},
+        {w:"घना", a:"विरल/छितरा"}, {w:"चंचल", a:"अचंचल/स्थिर"}, {w:"चर", a:"अचर"}, {w:"चल", a:"अचल"}, {w:"चिरंतन", a:"नश्वर"},
+        {w:"जंगम", a:"स्थावर"}, {w:"जड़", a:"चेतन"}, {w:"जिजीविषा", a:"मुमूर्षा"}, {w:"जाग्रत", a:"सुषुप्त"}, {w:"ज्येष्ठ", a:"कनिष्ठ"},
+        {w:"ढीठ", a:"विनम्र"}, {w:"तम", a:"प्रकाश"}, {w:"तटस्थ", a:"पक्षपाती"}, {w:"तरुण", a:"वृद्ध"}, {w:"तुकांत", a:"अतुकांत"},
+        {w:"तीक्ष्ण", a:"मंद/कुंद"}, {w:"तामसिक", a:"सात्विक"}, {w:"तुच्छ", a:"महान"}, {w:"थोक", a:"फुटकर"}, {w:"दाता", a:"याचक"},
+        {w:"दुर्जन", a:"सज्जन"}, {w:"दीर्घ", a:"ह्रस्व/लघु"}, {w:"दुराचार", a:"सदाचार"}, {w:"द्वेष", a:"प्रीति"}, {w:"दुर्गति", a:"सुगति"},
+        {w:"दुर्बल", a:"सबल"}, {w:"दुर्लभ", a:"सुलभ"}, {w:"दुष्कर", a:"सुकर"}, {w:"दयालु", a:"निर्दय/क्रूर"}, {w:"धवल", a:"श्याम/कृष्ण"},
+        {w:"ध्वंस", a:"निर्माण"}, {w:"धीरता", a:"अधीरता"}, {w:"धृष्ट", a:"विनीत/विनम्र"}, {w:"नग्न", a:"शिख"}, {w:"निंदा", a:"स्तुति/प्रशंसा"},
+        {w:"निर्बल", a:"सबल"}, {w:"निरर्थक", a:"सार्थक"}, {w:"निष्काम", a:"सकाम"}, {w:"निष्ठा", a:"अनिष्ठा"}, {w:"नूतन", a:"पुरातन"},
+        {w:"नीरस", a:"सरस"}, {w:"प्रसारण", a:"संकुचन"}, {w:"परिमित", a:"अपरिमित"}, {w:"परिहार्य", a:"अपरिहार्य"}, {w:"परोक्ष", a:"प्रत्यक्ष"},
+        {w:"प्रखर", a:"मंद"}, {w:"पद्य", a:"गद्य"}, {w:"परकीय", a:"स्वकीय"}, {w:"प्रख्यात", a:"कुख्यात"}, {w:"परिणत", a:"अपरिणत"},
+        {w:"प्रधान", a:"गौण"}, {w:"बरबर", a:"सभ्य"}, {w:"बुराई", a:"अच्छाई"}, {w:"बहिरंग", a:"अंतरंग"}, {w:"भय", a:"अभय"},
+        {w:"भूषण", a:"दूषण"}, {w:"भोगी", a:"योगी"}, {w:"भंजुज", a:"दनुज"}, {w:"मलिन", a:"निर्मल"}, {w:"महत्", a:"लघु"},
+        {w:"मुख्य", a:"गौण"}, {w:"मूक", a:"वाचाल"}, {w:"मृदु", a:"कठोर"}, {w:"मृत्यु", a:"जन्म"}, {w:"राजा", a:"रंक"},
+        {w:"रचना", a:"ध्वंस"}, {w:"रुष्ट", a:"तुष्ट"}, {w:"रागी", a:"विरागी"}, {w:"लचीला", a:"कठोर"}, {w:"विज्ञ", a:"अज्ञ"},
+        {w:"वसंत", a:"पतझड़"}, {w:"विषम", a:"सम"}, {w:"वाकिफ", a:"नावाकिफ"}, {w:"विकारी", a:"अविकारी"}, {w:"व्यय", a:"आय"},
+        {w:"विवाद", a:"निर्विवाद"}, {w:"व्यष्टि", a:"समष्टि"}, {w:"शालीन", a:"धृष्ट"}, {w:"शोष", a:"अशोष"}, {w:"शीतल", a:"उष्ण"},
+        {w:"शोक", a:"हर्ष"}, {w:"श्वेत", a:"श्याम"}, {w:"श्यामा", a:"गौरी"}, {w:"संकोच", a:"असंकोच"}, {w:"संपन्न", a:"विपन्न"},
+        {w:"संयोग", a:"वियोग"}, {w:"संवृत", a:"विवृत"}, {w:"सुगति", a:"दुर्गति"}, {w:"सजल", a:"निर्जल"}, {w:"सदय", a:"निर्दय"},
+        {w:"समीप", a:"दूर"}, {w:"सम्मुख", a:"विमुख"}, {w:"सुकर्म", a:"दुष्कर्म"}, {w:"सुपथ", a:"कुपथ"}, {w:"स्थूल", a:"सूक्ष्म"}
+    ];
+
+    let currentIdx = 0;
+    let userAnswers = new Array(masterData.length).fill(null);
+    const allAnsPool = masterData.map(d => d.a);
+
+    function loadQuestion() {
+        if(currentIdx >= masterData.length) return showResult();
+        const data = masterData[currentIdx];
+        document.getElementById("target-word").innerText = data.w;
+        document.getElementById("idx-view").innerText = currentIdx + 1;
+        
+        let opts = [data.a];
+        while(opts.length < 4) {
+            let r = allAnsPool[Math.floor(Math.random() * allAnsPool.length)];
+            if(!opts.includes(r)) opts.push(r);
+        }
+        opts.sort();
+
+        const box = document.getElementById("options-box");
+        box.innerHTML = "";
+        opts.forEach(o => {
+            const btn = document.createElement("div");
+            btn.className = "option";
+            btn.innerText = o;
+            
+            if(userAnswers[currentIdx] !== null && userAnswers[currentIdx] !== "SKIP") {
+                btn.classList.add("locked");
+                if(o === data.a) btn.classList.add("correct");
+                if(userAnswers[currentIdx] === o && o !== data.a) btn.classList.add("wrong");
+            }
+
+            btn.onclick = () => {
+                if(userAnswers[currentIdx] !== null) return;
+                userAnswers[currentIdx] = o;
+                highlight(data.a);
+            };
+            box.appendChild(btn);
+        });
+    }
+
+    function highlight(correct) {
+        const btns = document.querySelectorAll(".option");
+        btns.forEach(b => {
+            if(b.innerText === correct) b.classList.add("correct");
+            else if(b.innerText === userAnswers[currentIdx]) b.classList.add("wrong");
+            b.classList.add("locked");
+        });
+    }
+
+    function goNext() { if(currentIdx < masterData.length) { currentIdx++; loadQuestion(); } }
+    function goBack() { if(currentIdx > 0) { currentIdx--; loadQuestion(); } }
+    function skip() { if(userAnswers[currentIdx] === null) userAnswers[currentIdx] = "SKIP"; goNext(); }
+
+    function reattempt() {
+        userAnswers.fill(null);
+        currentIdx = 0;
+        document.getElementById("result-screen").style.display = "none";
+        document.getElementById("quiz-ui").style.display = "block";
+        loadQuestion();
+    }
+
+    function showResult() {
+        document.getElementById("quiz-ui").style.display = "none";
+        document.getElementById("result-screen").style.display = "block";
+        let score = 0;
+        let html = "";
+        
+        userAnswers.forEach((ans, i) => {
+            let statusText = "";
+            let statusColor = "";
+            let info = "";
+
+            if(ans === masterData[i].a) {
+                score++;
+                statusText = "Correct"; statusColor = "var(--green)";
+                info = `<br><span style="color:var(--green)">✓ उत्तर: ${masterData[i].a}</span>`;
+            } else if(ans === "SKIP") {
+                statusText = "Skipped"; statusColor = "var(--gray)";
+                info = `<br><span style="color:var(--green)">सटीक उत्तर: ${masterData[i].a}</span>`;
+            } else {
+                statusText = "Wrong"; statusColor = "var(--red)";
+                info = `<br><span style="color:var(--red)">आपका: ${ans}</span> | <span style="color:var(--green)">सटीक: ${masterData[i].a}</span>`;
+            }
+            
+            html += `<div class="res-item">
+                <b>${i+1}. ${masterData[i].w}</b> 
+                <span class="status" style="background:${statusColor}">${statusText}</span>
+                ${info}
+            </div>`;
+        });
+        
+        document.getElementById("score-text").innerText = score;
+        document.getElementById("review-list").innerHTML = html;
+    }
+
+    loadQuestion();
+</script>
+</body>
+</html>
